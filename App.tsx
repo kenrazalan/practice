@@ -1,10 +1,9 @@
 import React from 'react';
 
-import Login from '../practice/screens/Login'
-import Signup from '../practice/screens/Signup'
-import Welcome from '../practice/screens/Welcome'
+
+import RootStack from '../practice/navigation/RootStack'
 
 export default function App() {
-  return <Welcome/>
+  return <RootStack/>
 }
 

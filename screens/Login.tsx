@@ -25,13 +25,15 @@ import {Formik} from 'formik'
 import { View } from "react-native";
 import {Octicons, Ionicons, Fontisto} from '@expo/vector-icons'
 import { useState } from "react";
+import { KeyboardAvoidingWrapper } from "../components/KeyboardAvoidingWrapper";
 
 const {brand, darkLight, primary} = Colors
 
-const Login = () => {
+const Login = ({navigation}) => {
     const [hidePassword,setHidePassword] = useState(true)
 
   return (
+    <KeyboardAvoidingWrapper>
     <StyledContainer>
       <StatusBar style="dark" />
       <InnerContainer>
@@ -39,13 +41,14 @@ const Login = () => {
           resizeMode="cover"
           source={require("../assets/img/expo-bg1.png")}
         />
-        <PageTitle>Test</PageTitle>
+        <PageTitle>Login</PageTitle>
         <Subtitle>Account Login</Subtitle>
 
         <Formik
             initialValues={{ email:'', password:''}}
             onSubmit={(values) => {
                 console.log(values)
+                navigation.navigate("Welcome")
             }}
         >
         {({handleChange,handleBlur,handleSubmit,values}) => 
@@ -88,7 +91,7 @@ const Login = () => {
                 </StyledButton>  
                 <ExtraView>
                     <ExtraText>Dont have an account already?</ExtraText>
-                    <TextLink>
+                    <TextLink onPress={() => navigation.navigate("Signup")}>
                         <TextLinkContent> Signup</TextLinkContent>
                     </TextLink>
                 </ExtraView>                                                          
@@ -96,6 +99,7 @@ const Login = () => {
         </Formik>
       </InnerContainer>
     </StyledContainer>
+    </KeyboardAvoidingWrapper>
   );
 };
 

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components/native'
 import {View, Image, Text, TextInput, TouchableOpacity} from 'react-native'
 import Constants  from 'expo-constants'
 
@@ -19,7 +19,7 @@ const {primary, secondary, tertiary, darkLight, brand, green, red} = Colors
 export const StyledContainer = styled.View`
     flex: 1;
     padding: 25px;
-    padding-top: ${StatusBarHeight + 10}px;
+    padding-top: ${StatusBarHeight + 30}px;
     background-color: ${primary};
 `
 export const InnerContainer = styled.View`

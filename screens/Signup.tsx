@@ -26,10 +26,11 @@ import { View, TouchableOpacity, Touchable } from "react-native";
 import {Octicons, Ionicons, Fontisto} from '@expo/vector-icons'
 import { useState } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { KeyboardAvoidingWrapper } from "../components/KeyboardAvoidingWrapper";
 
 const {brand, darkLight, primary} = Colors
 
-const Signup = () => {
+const Signup = ({navigation}) => {
     const [hidePassword,setHidePassword] = useState(true)
     const [show, setShow] = useState(false);
     const [date, setDate] = useState(new Date(1598051730000));
@@ -48,11 +49,12 @@ const Signup = () => {
     }
 
   return (
+      <KeyboardAvoidingWrapper>
     <StyledContainer>
       <StatusBar style="dark" />
       <InnerContainer>
 
-        <PageTitle>Test</PageTitle>
+        <PageTitle>Signup</PageTitle>
         <Subtitle>Account Signup</Subtitle>
 
         {show && (
@@ -70,6 +72,7 @@ const Signup = () => {
             initialValues={{fullname:'', email:'', password:'',confirmPassword:'', dateOfBirth:''}}
             onSubmit={(values) => {
                 console.log(values)
+                navigation.navigate("Welcome")
             }}
         >
         {({handleChange,handleBlur,handleSubmit,values}) => 
@@ -134,13 +137,13 @@ const Signup = () => {
                 <MsgBox>...</MsgBox>
                 <StyledButton onPress={handleSubmit}>
                     <ButtonText>
-                        Login
+                        Sign up
                     </ButtonText>
                 </StyledButton>
                 <Line/>
                 <ExtraView>
                     <ExtraText>Already have an account?</ExtraText>
-                    <TextLink>
+                    <TextLink onPress={() => navigation.navigate("Login")}>
                         <TextLinkContent> Login</TextLinkContent>
                     </TextLink>
                 </ExtraView>                                                          
@@ -148,6 +151,7 @@ const Signup = () => {
         </Formik>
       </InnerContainer>
     </StyledContainer>
+    </KeyboardAvoidingWrapper>
   );
 };
 
