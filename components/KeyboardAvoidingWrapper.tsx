@@ -1,11 +1,11 @@
 import React from 'react'
 
-import {KeyboardAvoidingView, ScrollView,TouchableWithoutFeedback,Keyboard} from 'react-native'
+import { KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native'
 
-export const KeyboardAvoidingWrapper = ({children}) => {
+export const KeyboardAvoidingWrapper = ({ children }) => {
 
-    return(
-        <KeyboardAvoidingView style={{flex: 1}}>
+    return (
+        <KeyboardAvoidingView style={{ flex: 1 }}>
             <ScrollView>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     {children}

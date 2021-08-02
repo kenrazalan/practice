@@ -10,30 +10,30 @@ import { Colors } from '../components/styles';
 
 const Stack = createStackNavigator();
 
- const {primary, tertiary} = Colors;
+const { primary, tertiary } = Colors;
 
- const RootStack = () => {
-    return (
-      <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-                headerStyle: {
-                    backgroundColor: 'transparent'
-                },
-                headerTintColor: tertiary,
-                headerTransparent: true,
-                headerTitle: '',
-                headerLeftContainerStyle: {
-                    paddingLeft: 20
-                },
-            }}
-            initialRouteName="Login"
-          >
-            <Stack.Screen name="Login" component={Login}/>
-            <Stack.Screen name="Signup" component={Signup}/>
-            <Stack.Screen options={{headerTintColor: primary}} name="Welcome" component={Welcome}/>
-          </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
-  export default RootStack
+const RootStack = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: 'transparent'
+          },
+          headerTintColor: tertiary,
+          headerTransparent: true,
+          headerTitle: '',
+          headerLeftContainerStyle: {
+            paddingLeft: 20
+          },
+        }}
+        initialRouteName="Login"
+      >
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen options={{ headerTintColor: primary }} name="Welcome" component={Welcome} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+export default RootStack

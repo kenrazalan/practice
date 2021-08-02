@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
-import {View, Image, Text, TextInput, TouchableOpacity} from 'react-native'
-import Constants  from 'expo-constants'
+import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native'
+import Constants from 'expo-constants'
 
 const StatusBarHeight = Constants.statusBarHeight;
 
@@ -14,7 +14,7 @@ export const Colors = {
     red: '#EF4444',
 }
 
-const {primary, secondary, tertiary, darkLight, brand, green, red} = Colors 
+const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors
 
 export const StyledContainer = styled.View`
     flex: 1;
@@ -58,7 +58,7 @@ export const PageTitle = styled.Text`
     font-weight: bold;
     color: ${brand};
     padding: 10px;
-    ${ (props) => props.welcome === true && `
+    ${(props) => props.welcome === true && `
         font-size: 35px;
     `}
 `
@@ -68,7 +68,7 @@ export const Subtitle = styled.Text`
     letter-spacing: 1px;
     font-weight: bold;
     color: ${tertiary};
-    ${ (props) => props.welcome === true && `
+    ${(props) => props.welcome === true && `
         margin-bottom: 5px;
         font-weight: normal;
     `}
@@ -89,25 +89,25 @@ export const StyledTextInput = styled.TextInput`
     margin-bottom: 10px;
     color: ${tertiary};
 `
-export const StyledInputLabel= styled.Text`
+export const StyledInputLabel = styled.Text`
     color: ${tertiary};
     font-size: 13px;
     text-align: left;
 `
-export const LeftIcon= styled.Text`
+export const LeftIcon = styled.Text`
     left: 15px;
     top: 38px;
     position: absolute;
     z-index: 1;
 `
-export const RightIcon= styled.TouchableOpacity`
+export const RightIcon = styled.TouchableOpacity`
     right: 15px;
     top: 38px;
     position: absolute;
     z-index: 1;
 `
 
-export const StyledButton= styled.TouchableOpacity`
+export const StyledButton = styled.TouchableOpacity`
     padding: 15px;
     background-color: ${brand};
     justify-content: center;
@@ -115,47 +115,47 @@ export const StyledButton= styled.TouchableOpacity`
     align-items: center;
     margin-vertical: 5px;
     height: 60px;
-    ${ (props) => props.google === true && `
+    ${(props) => props.google === true && `
         background-color: ${green};
         flex-direction: row;
         justify-content: center;
     `}
 `
-export const ButtonText= styled.Text`
+export const ButtonText = styled.Text`
     color: ${primary};
     font-size: 16px;
-    ${ (props) => props.google === true && `
+    ${(props) => props.google === true && `
         padding: 25px;
     `}
 `
-export const MsgBox= styled.Text`
+export const MsgBox = styled.Text`
     text-align: center;
     font-size: 13px;
     color: red;
 `
-export const Line= styled.View`
+export const Line = styled.View`
     height: 1px;
     width: 100%;
     background-color: ${darkLight};
     margin-vertical: 10px;
 `
-export const ExtraView= styled.View`
+export const ExtraView = styled.View`
     justify-content: center;
     flex-direction: row;
     align-items: center;
     padding: 10px;
 `
-export const ExtraText= styled.Text`
+export const ExtraText = styled.Text`
     justify-content: center;
     align-content: center;
     color: ${tertiary};
     font-size: 15px;
 `
-export const TextLink= styled.TouchableOpacity`
+export const TextLink = styled.TouchableOpacity`
     justify-content: center;
     align-content: center;
 `
-export const TextLinkContent= styled.Text`
+export const TextLinkContent = styled.Text`
     color: ${brand};
     font-size: 15px;
 `
