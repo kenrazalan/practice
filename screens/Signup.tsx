@@ -22,11 +22,13 @@ import {
 } from "./../components/styles";
 import { StatusBar } from "expo-status-bar";
 import {Formik} from 'formik'
-import { View, TouchableOpacity, Touchable } from "react-native";
+import { View, TouchableOpacity, Touchable, ActivityIndicator } from "react-native";
 import {Octicons, Ionicons, Fontisto} from '@expo/vector-icons'
 import { useState } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { KeyboardAvoidingWrapper } from "../components/KeyboardAvoidingWrapper";
+import axios from "axios";
+import { LoginType, SignupType } from "../types/types";
 
 const {brand, darkLight, primary} = Colors
 
@@ -35,17 +37,40 @@ const Signup = ({navigation}) => {
     const [show, setShow] = useState(false);
     const [date, setDate] = useState(new Date(1598051730000));
     const [mode, setMode] = useState('date');
-    const [dob, setDob] = useState()
+    const [dateOfBirth, setDateOfBirth] = useState()
+    const [message,setMessage] = useState('')
+    const [messageType,setMessageType] = useState('')
 
     const onChange = (e, selectedDate) => {
         const currentDate = selectedDate || date
         setShow(false)
         setDate(currentDate)
-        setDob(currentDate)
+        setDateOfBirth(currentDate)
     }
 
     const showDatePicker = () => {
         setShow(true)
+    }
+
+    const handleSignup = async (data: SignupType, setSubmitting) => {
+        const url = 'https://nestjs-api-practice.herokuapp.com/user/signup'
+        
+        try {
+            const response = await axios.post(url, data)
+            const result = response.data;
+            setMessage('')
+            console.log(result)
+            navigation.navigate('Welcome', result.data)
+            
+        } catch (error) {
+            const response = error.response.data
+            setMessage(response.message)
+        }
+        setSubmitting(false)
+    }
+    const handleMessage = (message, type = 'Failed') => {
+        setMessage(message)
+        setMessageType(type)
     }
 
   return (
@@ -69,13 +94,35 @@ const Signup = ({navigation}) => {
       )}
 
         <Formik
-            initialValues={{fullname:'', email:'', password:'',confirmPassword:'', dateOfBirth:''}}
-            onSubmit={(values) => {
-                console.log(values)
-                navigation.navigate("Welcome")
+            initialValues = {{ 
+                    fullname:'', 
+                    email:'', 
+                    password:'',
+                    confirmpassword:'', 
+                    dob:''            
+                 }}
+            onSubmit={(values, {setSubmitting}) => {
+                values = {...values, dob: dateOfBirth}
+                console.log(values);
+                if( values.fullname === '' || 
+                    values.email === '' || 
+                    values.password === '' ||
+                    values.confirmpassword === '' || 
+                    values.dob === ''
+                ){
+                  handleMessage('Please add all fileds.')
+                  setSubmitting(false)
+                }
+                else if(values.password !== values.confirmpassword){
+                  handleMessage('Password does not match.')
+                  setSubmitting(false)
+                }
+                else{
+                    handleSignup(values, setSubmitting)
+                }
             }}
         >
-        {({handleChange,handleBlur,handleSubmit,values}) => 
+        {({handleChange,handleBlur,handleSubmit,values,isSubmitting}) => 
             <StyledFormArea>
                 <MyTextInput
                     label="Full Name "
@@ -84,7 +131,7 @@ const Signup = ({navigation}) => {
                     placeholderTextColor={darkLight}
                     onChangeText={handleChange('fullname')}
                     onBlur={handleBlur('fullname')}
-                    value={values.email}             
+                    value={values.fullname}             
                 />
                 <MyTextInput
                     label="Email Address"
@@ -101,10 +148,10 @@ const Signup = ({navigation}) => {
                     icon="calendar"
                     placeholder="YYYY - MM - DD"
                     placeholderTextColor={darkLight}
-                    onChangeText={handleChange('dateOfBirth')}
-                    onBlur={handleBlur('dateOfBirth')}
+                    onChangeText={handleChange('dob')}
+                    onBlur={handleBlur('dob')}
                     isDate={true}
-                    value={dob ? dob.toDateString() : ''}    
+                    value={dateOfBirth ? dateOfBirth.toDateString() : ''}    
                     editable={false}   
                     showDatePicker={showDatePicker}      
                 />
@@ -126,20 +173,23 @@ const Signup = ({navigation}) => {
                     icon="lock"
                     placeholder="* * * * * * * "
                     placeholderTextColor={darkLight}
-                    onChangeText={handleChange('confirmPassword')}
-                    onBlur={handleBlur('confirmPassword')}
-                    value={values.confirmPassword}
+                    onChangeText={handleChange('confirmpassword')}
+                    onBlur={handleBlur('confirmpassword')}
+                    value={values.confirmpassword}
                     isPassword={true}
                     secureTextEntry={hidePassword} 
                     hidePassword={hidePassword}  
                     setHidePassword={setHidePassword}           
                 />
-                <MsgBox>...</MsgBox>
-                <StyledButton onPress={handleSubmit}>
+                <MsgBox type={messageType}>{message}</MsgBox>
+                {!isSubmitting && <StyledButton onPress={handleSubmit}>
                     <ButtonText>
-                        Sign up
+                        Signup
                     </ButtonText>
-                </StyledButton>
+                </StyledButton>}
+                {isSubmitting && <StyledButton disabled={true}>
+                    <ActivityIndicator size="large" color={primary}/>
+                </StyledButton>}
                 <Line/>
                 <ExtraView>
                     <ExtraText>Already have an account?</ExtraText>

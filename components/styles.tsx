@@ -131,6 +131,7 @@ export const ButtonText= styled.Text`
 export const MsgBox= styled.Text`
     text-align: center;
     font-size: 13px;
+    color: red;
 `
 export const Line= styled.View`
     height: 1px;

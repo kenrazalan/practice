@@ -16,8 +16,8 @@ import { StatusBar } from "expo-status-bar";
 
 
 
-const Welcome = ({navigation}) => {
-
+const Welcome = ({navigation, route}) => {
+  const {fullname, email} = route.params;
   return (
     <>
       <StatusBar style="light" />
@@ -26,8 +26,8 @@ const Welcome = ({navigation}) => {
 
         <WelcomeContainer>
             <PageTitle welcome={true}>Welcome</PageTitle>
-            <Subtitle welcome={true}>kennethrazalan29@gmail.com</Subtitle>
-            <Subtitle welcome={true}>Kenneth Razalan</Subtitle>
+            <Subtitle welcome={true}>{email || 'kennethrazalan29@gmail.com'}</Subtitle>
+            <Subtitle welcome={true}>{fullname || 'Kenneth Razalan'}</Subtitle>
 
             <StyledFormArea>
                 <Avatar resizeMode="cover" source={require('../assets/img/expo-bg2.png')}/>

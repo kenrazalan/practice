@@ -22,15 +22,40 @@ import {
 } from "./../components/styles";
 import { StatusBar } from "expo-status-bar";
 import {Formik} from 'formik'
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import {Octicons, Ionicons, Fontisto} from '@expo/vector-icons'
 import { useState } from "react";
 import { KeyboardAvoidingWrapper } from "../components/KeyboardAvoidingWrapper";
+import axios from 'axios'
+import { LoginType } from "../types/types";
 
 const {brand, darkLight, primary} = Colors
 
 const Login = ({navigation}) => {
     const [hidePassword,setHidePassword] = useState(true)
+    const [message,setMessage] = useState('')
+    const [messageType,setMessageType] = useState('')
+
+    const handleLogin = async (data: LoginType,setSubmitting) => {
+        const url = 'https://nestjs-api-practice.herokuapp.com/user/login'
+        
+        try {
+            const response = await axios.post(url, data)
+            const result = response.data;
+            setMessage('')
+            console.log(result.user)
+            navigation.navigate('Welcome', result.user)
+            
+        } catch (error) {
+            const response = error.response.data
+            setMessage(response.message)
+        }
+        setSubmitting(false)
+    }
+    const handleMessage = (message, type = 'Failed') => {
+        setMessage(message)
+        setMessageType(type)
+    }
 
   return (
     <KeyboardAvoidingWrapper>
@@ -46,12 +71,18 @@ const Login = ({navigation}) => {
 
         <Formik
             initialValues={{ email:'', password:''}}
-            onSubmit={(values) => {
-                console.log(values)
-                navigation.navigate("Welcome")
+            onSubmit={(values,{setSubmitting}) => {
+                if(values.email === '' || values.password === ''){
+                    handleMessage('Please add all fileds.')
+                    setSubmitting(false)
+                }
+                else{
+                    handleLogin(values, setSubmitting)
+                }
+                
             }}
         >
-        {({handleChange,handleBlur,handleSubmit,values}) => 
+        {({handleChange,handleBlur,handleSubmit,values,isSubmitting}) => 
             <StyledFormArea>
                 <MyTextInput
                     label="Email Address"
@@ -76,12 +107,15 @@ const Login = ({navigation}) => {
                     hidePassword={hidePassword}  
                     setHidePassword={setHidePassword}           
                 />
-                <MsgBox>...</MsgBox>
-                <StyledButton onPress={handleSubmit}>
+                <MsgBox type={messageType}>{message}</MsgBox>
+                {!isSubmitting && <StyledButton onPress={handleSubmit}>
                     <ButtonText>
                         Login
                     </ButtonText>
-                </StyledButton>
+                </StyledButton>}
+                {isSubmitting && <StyledButton disabled={true}>
+                    <ActivityIndicator size="large" color={primary}/>
+                </StyledButton>}
                 <Line/> 
                 <StyledButton google={true} onPress={handleSubmit}>
                     <Fontisto name="google" color={primary} size={25}/>
